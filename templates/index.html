@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PeliSivu</title>
+</head>
+
+<body>
+    <h1>PeliSivu</h1>
+
+  {% if session.username %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }}
+  </p>
+  <p>
+  <p>
+    <a href="/logout">Kirjaudu ulos</a>
+  </p>
+  <p>
+    <a href="/register">Luo tunnus</a>
+  </p>
+
+  {% else %}
+  <form action="/login" method="post">
+    <p>
+      Tunnus: <br />
+      <input type="text" name="username" />
+    </p>
+    <p>
+      Salasana: <br />
+      <input type="password" name="password" />
+    </p>
+    <input type="submit" value="Kirjaudu" />
+
+
+
+    
+    tai luo tunnus:
+    <p>
+    <a href="/register">Luo tunnus</a>
+    </p>
+  </form>
+  {% endif %}
+</body>
+
+</html>
