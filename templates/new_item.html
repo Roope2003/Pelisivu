@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Uusi Postaus</title>
+</head>
+<body>
+  <form action="/create_item" method="post">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title" />
+    </p>
+    <p>
+      Sisältö: <br />
+      <textarea name="content" rows="5" cols="40"></textarea>
+    </p>
+    <p>
+      Hinta: <br />
+      <input type="number" name="price" step="0.01" /> €
+    </p>
+    <input type="submit" value="Lisää postaus" />
+  </form>
+</body>
+</html>

@@ -19,8 +19,11 @@
   <p>
     <a href="/register">Luo tunnus</a>
   </p>
+    <p>
+    <a href="/new_item">Luo uusi postaus</a>
+  </p>
 
-  {% else %}
+{% else %}
   <form action="/login" method="post">
     <p>
       Tunnus: <br />
@@ -30,17 +33,17 @@
       Salasana: <br />
       <input type="password" name="password" />
     </p>
-    <input type="submit" value="Kirjaudu" />
-
-
-
-    
-    tai luo tunnus:
     <p>
-    <a href="/register">Luo tunnus</a>
+      <input type="submit" value="Kirjaudu" />
     </p>
   </form>
-  {% endif %}
+
+  <p>— tai —</p>
+  
+  <p>
+    <a href="/register">Luo uusi tunnus</a>
+  </p>
+{% endif %}
 </body>
 
 </html>
