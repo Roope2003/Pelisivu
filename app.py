@@ -64,6 +64,16 @@ def delete_item(id):
 
 
 
+@app.route("/find_item", methods=["GET","POST"])
+def find_item():
+    title = request.args.get("title", "")
+    if title:
+        results = items.find_items(title)
+    else:
+        title = " "
+        results = []
+    title = request.args.get("title")
+    return render_template("find_item.html", title=title, results=results)
 
 
 

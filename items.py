@@ -37,3 +37,13 @@ def update_item(id, title, content, price, genre, user_id):
 def delete_item(id):
     sql = "DELETE FROM posts WHERE id=?"
     db.execute(sql, [id])
+
+
+def find_items(title):
+        sql = """SELECT id, title
+        FROM posts
+        WHERE title LIKE ? or  content like ?
+        ORDER BY id DESC"""
+        like = "%" + title + "%"
+        result = db.query(sql, [like, like])
+        return result

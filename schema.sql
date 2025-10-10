@@ -10,4 +10,5 @@ CREATE TABLE posts (
     content TEXT ,
     price REAL,
     user_id REFERENCES users
+    genre TEXT
 );
