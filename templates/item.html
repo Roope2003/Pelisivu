@@ -3,4 +3,12 @@
 <p>Genre: {{ item.genre }}</p>
 <p>Hinta: {{ item.price }}</p>
 <p>Kuvaus: {{ item.content }}</p>
+
+{% if session.user_id == item.user_id %}
+  <p><a href="/edit_item/{{ item.id }}">Muokkaa postaus</a></p>
+  <p><a href="/delete_item/{{ item.id }}">Poista postaus</a></p>
+{% endif %}
+
+
+
 <a href="/">Takaisin</a>

@@ -22,10 +22,18 @@ def get_all_posts():
 
 def get_item(id):
     sql = """
-        SELECT posts.id, posts.title, posts.content, posts.price, posts.genre, users.username
+        SELECT posts.id, posts.title, posts.content, posts.price, posts.genre, users.username, posts.user_id
         FROM posts
         JOIN users ON posts.user_id = users.id
         WHERE posts.id = ?
     """
     result = db.query(sql, [id])
     return result[0] if result else None
+
+def update_item(id, title, content, price, genre, user_id):
+    sql = "UPDATE posts SET title=?, content=?, price=?, genre=?, user_id=? WHERE id=?"
+    db.execute(sql, [title, content, price, genre, user_id, id])
+
+def delete_item(id):
+    sql = "DELETE FROM posts WHERE id=?"
+    db.execute(sql, [id])

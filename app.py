@@ -36,6 +36,29 @@ def create_item():
     return redirect("/")
 
 
+@app.route("/edit_item/<int:id>")
+def edit_item(id):
+    item = items.get_item(id)
+    return render_template("edit_item.html", item=item)
+
+@app.route("/update_item/<int:id>", methods=["POST"])
+def update_item(id):
+    title=request.form["title"]
+    content=request.form["content"]
+    price=request.form.get("price", 0)
+    genre=request.form.get("genre", "Muu")
+    user_id=session["user_id"]
+    items.update_item(id, title, content, price, genre, user_id)
+    return redirect("/item/"+str(id))
+
+@app.route("/delete_item/<int:id>")
+def delete_item(id):
+    items.delete_item(id)
+    return redirect("/")
+
+
+
+
 
 @app.route("/register")
 def register():
