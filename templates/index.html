@@ -22,6 +22,21 @@
     <p>
     <a href="/new_item">Luo uusi postaus</a>
   </p>
+{% if posts %}
+<h2>Pelit</h2>
+<ul>
+  {% for post in posts %}
+    <li>
+      <a href="/item/{{ post.id }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+
+{% else %}
+  <p>Ei vielä postauksia.</p>
+{% endif %}
+
 
 {% else %}
   <form action="/login" method="post">
