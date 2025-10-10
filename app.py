@@ -51,10 +51,18 @@ def update_item(id):
     items.update_item(id, title, content, price, genre, user_id)
     return redirect("/item/"+str(id))
 
-@app.route("/delete_item/<int:id>")
+@app.route("/delete_item/<int:id>",methods = ["GET","POST"])
 def delete_item(id):
-    items.delete_item(id)
-    return redirect("/")
+    if request.method == "GET":
+        item= items.get_item(id)
+        return render_template("delete_item.html", item=item)
+    if "remove" in request.method:
+        items.delete_item(id)
+        return redirect("/")
+    else:
+        return redirect("/item/"+str(id))
+
+
 
 
 

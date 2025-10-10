@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Peli julkaisun poisto</title>
+</head>
+
+<body>
+    <h1>Peli julkaisun poisto</h1>   
+    <p> Peli: {{ item.title }}</p>
+    <p>Julkaisija: {{ item.username }}</p>
+
+    <p>Haluatko varmasti poistaa julkaisun?</p>
+
+    <form action="/delete_item/{{ item.id }}" method="post">
+        <input type="submit" name= "remove" value="Poista julkaisu">
+        <input type="submit" name="back" value="Takaisin">
+    </form>
+</body>
+
+</html>
