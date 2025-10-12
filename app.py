@@ -22,6 +22,8 @@ def new_item():
 @app.route("/item/<int:id>")
 def show_item(id):
     item = items.get_item(id)
+    if not item:
+        abort(404)
     return render_template("item.html", item=item)
 
 
@@ -39,6 +41,8 @@ def create_item():
 @app.route("/edit_item/<int:id>")
 def edit_item(id):
     item = items.get_item(id)
+    if not item:
+        abort(404)
     if item["user_id"] !=session["user_id"]:
         abort(403)
     return render_template("edit_item.html", item=item)
@@ -47,6 +51,8 @@ def edit_item(id):
 def update_item(id):
 
     item = items.get_item(id)
+    if not item:
+        abort(404)
     if item["user_id"] !=session["user_id"]:
         abort(403)
 
@@ -61,6 +67,8 @@ def update_item(id):
 @app.route("/delete_item/<int:id>",methods = ["GET","POST"])
 def delete_item(id):
     item = items.get_item(id)
+    if not item:
+        abort(404)
     if item["user_id"] !=session["user_id"]:
         abort(403)
     if request.method == "GET":
