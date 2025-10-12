@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import items
 import db
@@ -39,10 +39,17 @@ def create_item():
 @app.route("/edit_item/<int:id>")
 def edit_item(id):
     item = items.get_item(id)
+    if item["user_id"] !=session["user_id"]:
+        abort(403)
     return render_template("edit_item.html", item=item)
 
 @app.route("/update_item/<int:id>", methods=["POST"])
 def update_item(id):
+
+    item = items.get_item(id)
+    if item["user_id"] !=session["user_id"]:
+        abort(403)
+
     title=request.form["title"]
     content=request.form["content"]
     price=request.form.get("price", 0)
@@ -53,8 +60,10 @@ def update_item(id):
 
 @app.route("/delete_item/<int:id>",methods = ["GET","POST"])
 def delete_item(id):
+    item = items.get_item(id)
+    if item["user_id"] !=session["user_id"]:
+        abort(403)
     if request.method == "GET":
-        item= items.get_item(id)
         return render_template("delete_item.html", item=item)
     if "remove" in request.method:
         items.delete_item(id)
@@ -88,15 +97,15 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+        return render_template("register_failure.html", message="Salasanat eivät täsmää")
     password_hash = generate_password_hash(password1)
 
     try:
         items.create_user(username, password_hash)
     except sqlite3.IntegrityError:
-        return "VIRHE: tunnus on jo varattu"
+        return render_template("register_failure.html", message="Tunnus on jo varattu")
 
-    return "Tunnus luotu"
+    return render_template("register_success.html")
 
 
 
