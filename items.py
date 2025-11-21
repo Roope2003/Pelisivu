@@ -38,6 +38,16 @@ def delete_item(id):
     sql = "DELETE FROM posts WHERE id=?"
     db.execute(sql, [id])
 
+def get_posts_by_user(user_id):
+    sql = """ SELECT id, title, content, price FROM posts WHERE user_id = ? ORDER BY id DESC;
+    """
+    rivit= db.query(sql, [user_id])
+    return [{"id": r["id"], "title": r["title"]} for r in rivit]
+
+def get_user_by_id(id):
+    sql = "SELECT id, username FROM users WHERE id = ?"
+    result = db.query(sql, [id])
+    return result[0] if result else None
 
 def find_items(title):
         sql = """SELECT id, title

@@ -136,7 +136,15 @@ def login():
                 return redirect("/")
             else:
                 return "VIRHE: väärä tunnus tai salasana"
-
+            
+            
+@app.route("/user_page/<int:id>")
+def user_page(id):
+    user = items.get_user_by_id(id)
+    if not user:
+        abort(404)
+    posts = items.get_posts_by_user(id)
+    return render_template("user_page.html", user=user, posts=posts)
 @app.route("/logout")
 def logout():
     del session["user_id"]

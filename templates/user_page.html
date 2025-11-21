@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Käyttäjän tiedot</title>   
+</head> 
+<body>
+    <h1>Käyttäjän tiedot</h1>   
+    <p>Käyttäjänimi: {{ user.username }}</p>
+    <h2>Käyttäjän julkaisut</h2>
+    {% if posts %}
+    <ul>
+      {% for post in posts %}
+        <li>
+          <a href="/item/{{ post.id }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>Ei vielä julkaisuja.</p>
+    {% endif %}
+    <a href="/">Takaisin</a>
+</body>
+</html>
