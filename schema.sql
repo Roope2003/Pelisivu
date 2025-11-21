@@ -9,6 +9,6 @@ CREATE TABLE posts (
     title TEXT ,
     content TEXT ,
     price REAL,
-    user_id REFERENCES users
+    user_id REFERENCES users ,
     genre TEXT
 );

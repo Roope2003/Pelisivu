@@ -73,7 +73,7 @@ def delete_item(id):
         abort(403)
     if request.method == "GET":
         return render_template("delete_item.html", item=item)
-    if "remove" in request.method:
+    if "remove" in request.form:
         items.delete_item(id)
         return redirect("/")
     else:
