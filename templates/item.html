@@ -1,5 +1,5 @@
 <h1>{{ item.title }}</h1>
-<p>Julkaisija: {{ item.username }}</p>
+<p>Julkaisija: <a href="/user_page/{{ item.user_id }}">{{ item.username }}</a></p>
 <p>Genre: {{ item.genre }}</p>
 <p>Hinta: {{ item.price }}</p>
 <p>Kuvaus: {{ item.content }}</p>
@@ -10,5 +10,44 @@
 {% endif %}
 
 
+<h2>Arvioinnit</h2>
+{% if avg_rating %}
+  <p>Keskiarvo: {{ avg_rating|round(1) }}/5</p>
+{% endif %}
+
+{% if ratings %}
+  <ul>
+    {% for r in ratings %}
+      <li>
+        <strong>{{ r.username }}</strong>: {{ r.rating }}/5
+        {% if r.comment %}
+          - {{ r.comment }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Ei vielä arvioita.</p>
+{% endif %}
+
+{% if session.user_id and session.user_id != item.user_id %}
+  <h3>Lisää arvio</h3>
+  <form action="/rate_item/{{ item.id }}" method="post">
+    <label>Arvio (1-5): 
+      <select name="rating" required>
+        <option value="">Valitse</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+    </label><br>
+    <label>Kommentti: 
+      <textarea name="comment" rows="3"></textarea>
+    </label><br>
+    <input type="submit" value="Lähetä arvio">
+  </form>
+{% endif %}
 
 <a href="/">Takaisin</a>

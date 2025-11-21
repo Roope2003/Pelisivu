@@ -24,8 +24,9 @@ def show_item(id):
     item = items.get_item(id)
     if not item:
         abort(404)
-    return render_template("item.html", item=item)
-
+    ratings = items.get_ratings(id)
+    avg_rating = items.get_average_rating(id)
+    return render_template("item.html", item=item, ratings=ratings, avg_rating=avg_rating)
 
 @app.route("/create_item", methods=["POST"])
 def create_item():
@@ -124,20 +125,23 @@ def login():
         return render_template("login.html")
 
     if request.method=="POST":
-            username = request.form["username"]
-            password = request.form["password"]
-            result = items.get_user(username)
-            user_id = result["id"]
-            password_hash = result["password_hash"]
+        username = request.form["username"]
+        password = request.form["password"]
+        result = items.get_user(username)
+        
+        if not result:
+            return "VIRHE: väärä tunnus tai salasana"
+        
+        user_id = result["id"]
+        password_hash = result["password_hash"]
 
-            if check_password_hash(password_hash, password):
-                session["user_id"] = user_id
-                session["username"] = username
-                return redirect("/")
-            else:
-                return "VIRHE: väärä tunnus tai salasana"
-            
-            
+        if check_password_hash(password_hash, password):
+            session["user_id"] = user_id
+            session["username"] = username
+            return redirect("/")
+        else:
+            return "VIRHE: väärä tunnus tai salasana"
+
 @app.route("/user_page/<int:id>")
 def user_page(id):
     user = items.get_user_by_id(id)
@@ -150,3 +154,26 @@ def logout():
     del session["user_id"]
     del session["username"]
     return redirect("/")
+
+@app.route("/rate_item/<int:id>", methods=["POST"])
+def rate_item(id):
+    if "user_id" not in session:
+        abort(403)
+    item = items.get_item(id)
+    if not item:
+        abort(404)
+    if item["user_id"] == session["user_id"]:
+        abort(403) 
+
+    rating = request.form.get("rating", type=int)
+    comment = request.form.get("comment", "")
+    
+    if not (1 <= rating <= 5):
+        abort(400)
+    
+    try:
+        items.create_rating(id, session["user_id"], rating, comment)
+    except sqlite3.IntegrityError:
+        return "Olet jo arvioinut tämän pelin"
+    
+    return redirect("/item/"+str(id))

@@ -57,3 +57,26 @@ def find_items(title):
         like = "%" + title + "%"
         result = db.query(sql, [like, like])
         return result
+
+def create_rating(post_id, user_id, rating, comment):
+    sql = "INSERT INTO ratings (post_id, user_id, rating, comment) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [post_id, user_id, rating, comment])
+
+def get_ratings(post_id):
+    sql = """
+        SELECT ratings.id, ratings.rating, ratings.comment, users.username
+        FROM ratings
+        JOIN users ON ratings.user_id = users.id
+        WHERE ratings.post_id = ?
+        ORDER BY ratings.id DESC
+    """
+    return db.query(sql, [post_id])
+
+def get_average_rating(post_id):
+    sql = "SELECT AVG(rating) as avg_rating FROM ratings WHERE post_id = ?"
+    result = db.query(sql, [post_id])
+    return result[0]["avg_rating"] if result else None
+
+def user_has_rated(post_id, user_id):
+    sql = "SELECT id FROM ratings WHERE post_id = ? AND user_id = ?"
+    return db.query(sql, [post_id, user_id])
