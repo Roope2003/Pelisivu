@@ -172,10 +172,46 @@ def rate_item(id):
     
     if not (1 <= rating <= 5):
         abort(400)
-    
+
     try:
         items.create_rating(id, session["user_id"], rating, comment)
     except sqlite3.IntegrityError:
         return "Olet jo arvioinut tämän pelin"
-    
+
     return redirect("/item/"+str(id))
+
+@app.route("/edit_rating/<int:rating_id>", methods=["GET", "POST"])
+def edit_rating(rating_id):
+    rating = items.get_rating(rating_id)
+    if not rating:
+        abort(404)
+    if rating["user_id"] != session.get("user_id"):
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("edit_rating.html", rating=rating)
+    
+    rating_val = request.form.get("rating", type=int)
+    comment = request.form.get("comment", "")
+
+    if not (1 <= rating_val <= 5):
+        abort(400)
+
+    items.update_rating(rating_id, rating_val, comment)
+    return redirect("/item/" + str(rating["post_id"]))
+
+@app.route("/delete_rating/<int:rating_id>", methods=["GET", "POST"])
+def delete_rating(rating_id):
+    rating = items.get_rating(rating_id)
+    if not rating:
+        abort(404)
+    if rating["user_id"] != session.get("user_id"):
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("delete_rating.html", rating=rating)
+
+    if "remove" in request.form:
+        items.delete_rating(rating_id)
+
+    return redirect("/item/" + str(rating["post_id"]))

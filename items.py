@@ -64,7 +64,7 @@ def create_rating(post_id, user_id, rating, comment):
 
 def get_ratings(post_id):
     sql = """
-        SELECT ratings.id, ratings.rating, ratings.comment, users.username
+        SELECT ratings.id, ratings.rating, ratings.comment, ratings.user_id, users.username
         FROM ratings
         JOIN users ON ratings.user_id = users.id
         WHERE ratings.post_id = ?
@@ -90,3 +90,16 @@ def get_user_ratings(user_id):
         ORDER BY ratings.id DESC
     """
     return db.query(sql, [user_id])
+
+def update_rating(rating_id, rating, comment):
+    sql = "UPDATE ratings SET rating=?, comment=? WHERE id=?"
+    db.execute(sql, [rating, comment, rating_id])
+
+def get_rating(rating_id):
+    sql = "SELECT id, post_id, user_id, rating, comment FROM ratings WHERE id = ?"
+    result = db.query(sql, [rating_id])
+    return result[0] if result else None
+
+def delete_rating(rating_id):
+    sql = "DELETE FROM ratings WHERE id=?"
+    db.execute(sql, [rating_id])

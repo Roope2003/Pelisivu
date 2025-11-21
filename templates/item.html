@@ -23,6 +23,10 @@
         {% if r.comment %}
           - {{ r.comment }}
         {% endif %}
+        {% if session.user_id and session.user_id == r.user_id %}
+          <a href="/edit_rating/{{ r.id }}">Muokkaa</a>
+          <a href="/delete_rating/{{ r.id }}">Poista</a>
+        {% endif %}
       </li>
     {% endfor %}
   </ul>

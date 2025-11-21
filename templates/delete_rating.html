@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poista arvio</title>
+</head>
+<body>
+    <h1>Poista arvio</h1>
+    <p>Haluatko varmasti poistaa arvion?</p>
+    <form action="/delete_rating/{{ rating.id }}" method="post">
+        <input type="submit" name="remove" value="Poista arvio">
+        <input type="submit" name="back" value="Peruuta">
+    </form>
+</body>
+</html>
