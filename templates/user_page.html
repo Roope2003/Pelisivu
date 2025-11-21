@@ -11,7 +11,7 @@
     <ul>
       {% for post in posts %}
         <li>
-          <a href="/item/{{ post.id }}">{{ post.title }}</a>
+            <a href="/item/{{ post.id }}">{{ post.title }}</a>
         </li>
       {% endfor %}
     </ul>
@@ -19,5 +19,24 @@
       <p>Ei vielä julkaisuja.</p>
     {% endif %}
     <a href="/">Takaisin</a>
+
+    <h3>Käyttäjän jättämät arvioinnit</h3>
+    {% if ratings %}
+    <ul>
+      {% for rating in ratings %}
+        <li>
+          <a href="/item/{{ rating.post_id }}">{{ rating.title }}</a>: {{ rating.rating }}/5
+          {% if rating.comment %}
+            - {{ rating.comment }}
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>Ei vielä arvioita.</p>
+    {% endif %}
+
+</body>
+</html>
 </body>
 </html>

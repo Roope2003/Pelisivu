@@ -148,7 +148,9 @@ def user_page(id):
     if not user:
         abort(404)
     posts = items.get_posts_by_user(id)
-    return render_template("user_page.html", user=user, posts=posts)
+    ratings = items.get_user_ratings(id)
+    return render_template("user_page.html", user=user, posts=posts, ratings=ratings)
+
 @app.route("/logout")
 def logout():
     del session["user_id"]

@@ -80,3 +80,13 @@ def get_average_rating(post_id):
 def user_has_rated(post_id, user_id):
     sql = "SELECT id FROM ratings WHERE post_id = ? AND user_id = ?"
     return db.query(sql, [post_id, user_id])
+
+def get_user_ratings(user_id):
+    sql = """
+        SELECT ratings.id, ratings.rating, ratings.comment, posts.title, posts.id as post_id
+        FROM ratings
+        JOIN posts ON ratings.post_id = posts.id
+        WHERE ratings.user_id = ?
+        ORDER BY ratings.id DESC
+    """
+    return db.query(sql, [user_id])
