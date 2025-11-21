@@ -51,6 +51,7 @@
       <textarea name="comment" rows="3"></textarea>
     </label><br>
     <input type="submit" value="Lähetä arvio">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
   </form>
 {% endif %}
 

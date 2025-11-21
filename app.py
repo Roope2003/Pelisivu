@@ -5,8 +5,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import items
 import db
 import config
+import secrets
+
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+@app.context_processor
+def inject_csrf_token():
+    if "csrf_token" not in session:
+        session["csrf_token"] = secrets.token_hex(16)
+    return dict(csrf_token=session["csrf_token"])
+
+@app.before_request
+def csrf_protect():
+    if request.method == "POST" and request.endpoint not in ("login",):
+        session_token = session.get("csrf_token")
+        form_token = request.form.get("csrf_token")
+        if not session_token or session_token != form_token:
+            abort(403)
 
 
 @app.route("/")
@@ -153,8 +169,7 @@ def user_page(id):
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
-    del session["username"]
+    session.clear()
     return redirect("/")
 
 @app.route("/rate_item/<int:id>", methods=["POST"])

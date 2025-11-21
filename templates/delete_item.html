@@ -13,6 +13,7 @@
     <p>Haluatko varmasti poistaa julkaisun?</p>
 
     <form action="/delete_item/{{ item.id }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <input type="submit" name="remove" value="Poista julkaisu">
         <input type="submit" name="back" value="Takaisin">
     </form>

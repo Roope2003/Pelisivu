@@ -19,6 +19,7 @@
             <textarea name="comment" rows="3">{{ rating.comment }}</textarea>
         </label><br>
         <input type="submit" value="Päivitä arvio">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>
     <a href="/">Takaisin</a>
 </body>
