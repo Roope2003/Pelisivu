@@ -1,42 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Muokkaa postaus</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Muokkaa: {{ item.title }} · Pelisivu{% endblock %}
+{% block content %}
   <h1>Muokkaa julkaisua</h1>
-
-  <form action="/update_item/{{ item.id }}" method="post">
-    <p>
-      Otsikko: <br>
-      <input type="text" name="title" value="{{ item.title }}">
-    </p>
-
-    <p>
-      Kuvaus: <br>
-      <textarea name="content" rows="5" cols="40">{{ item.content }}</textarea>
-    </p>
-
-    <p>
-      Hinta: <br>
+  <form action="/update_item/{{ item.id }}" method="post" class="form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <input type="hidden" name="id" value="{{ item.id }}">
+    <label>
+      Otsikko
+      <input type="text" name="title" value="{{ item.title }}" required>
+    </label>
+    <label>
+      Kuvaus
+      <textarea name="content" rows="5">{{ item.content }}</textarea>
+    </label>
+    <label>
+      Hinta (€)
       <input type="number" name="price" step="0.01" value="{{ item.price }}">
-    </p>
-
-    <p>
-      Genre: <br>
+    </label>
+    <label>
+      Genre
       <select name="genre">
         <option value="Toiminta" {% if item.genre == "Toiminta" %}selected{% endif %}>Toiminta</option>
         <option value="Seikkailu" {% if item.genre == "Seikkailu" %}selected{% endif %}>Seikkailu</option>
         <option value="RPG" {% if item.genre == "RPG" %}selected{% endif %}>RPG</option>
         <option value="Strategia" {% if item.genre == "Strategia" %}selected{% endif %}>Strategia</option>
-        <option value="Simulaatio" {% if item.genre == "Simulaatio" %}selected{% endif %}
-        >Simulaatio</option>
+        <option value="Simulaatio" {% if item.genre == "Simulaatio" %}selected{% endif %}>Simulaatio</option>
         <option value="Muu" {% if item.genre == "Muu" %}selected{% endif %}>Muu</option>
       </select>
-    </p>
-    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-    <input type="hidden" name="id" value="{{ item.id }}">
-    <input type="submit" value="Tallenna muutokset">
+    </label>
+    <button type="submit">Tallenna muutokset</button>
   </form>
-</body>
-</html> 
+{% endblock %}

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Pelisivu{% endblock %}</title>
+    {% block head_extra %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav">
+        <a href="/">Etusivu</a>
+        <a href="/new_item">Uusi peli</a>
+        {% if session.get('user_id') %}
+          <a href="/user_page/{{ session.get('user_id') }}">Profiili</a>
+          <a href="/logout">Kirjaudu ulos</a>
+        {% else %}
+          <a href="/login">Kirjaudu</a>
+          <a href="/register">Rekisteröidy</a>
+        {% endif %}
+      </nav>
+    </header>
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+  </html>

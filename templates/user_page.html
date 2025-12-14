@@ -1,42 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Käyttäjän tiedot</title>   
-</head> 
-<body>
-    <h1>Käyttäjän tiedot</h1>   
+{% extends "base.html" %}
+{% block title %}Käyttäjä: {{ user.username }} · Pelisivu{% endblock %}
+{% block content %}
+  <article class="card">
+    <h1>Käyttäjän tiedot</h1>
     <p>Käyttäjänimi: {{ user.username }}</p>
+  </article>
+
+  <section class="card">
     <h2>Käyttäjän julkaisut</h2>
     {% if posts %}
-    <ul>
-      {% for post in posts %}
-        <li>
+      <ul class="card-list">
+        {% for post in posts %}
+          <li class="card">
             <a href="/item/{{ post.id }}">{{ post.title }}</a>
-        </li>
-      {% endfor %}
-    </ul>
+          </li>
+        {% endfor %}
+      </ul>
     {% else %}
-      <p>Ei vielä julkaisuja.</p>
+      <p class="muted">Ei vielä julkaisuja.</p>
     {% endif %}
-    <a href="/">Takaisin</a>
+  </section>
 
+  <section class="card">
     <h3>Käyttäjän jättämät arvioinnit</h3>
     {% if ratings %}
-    <ul>
-      {% for rating in ratings %}
-        <li>
-          <a href="/item/{{ rating.post_id }}">{{ rating.title }}</a>: {{ rating.rating }}/5
-          {% if rating.comment %}
-            - {{ rating.comment }}
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
+      <ul class="card-list">
+        {% for rating in ratings %}
+          <li class="card">
+            <a href="/item/{{ rating.post_id }}">{{ rating.title }}</a>: {{ rating.rating }}/5
+            {% if rating.comment %}
+              <div class="muted">{{ rating.comment }}</div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
     {% else %}
-      <p>Ei vielä arvioita.</p>
+      <p class="muted">Ei vielä arvioita.</p>
     {% endif %}
-
-</body>
-</html>
-</body>
-</html>
+  </section>
+{% endblock %}

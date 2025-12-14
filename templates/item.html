@@ -1,58 +1,66 @@
-<h1>{{ item.title }}</h1>
-<p>Julkaisija: <a href="/user_page/{{ item.user_id }}">{{ item.username }}</a></p>
-<p>Genre: {{ item.genre }}</p>
-<p>Hinta: {{ item.price }}</p>
-<p>Kuvaus: {{ item.content }}</p>
+{% extends "base.html" %}
+{% block title %}{{ item.title }} · Pelisivu{% endblock %}
+{% block content %}
+  <article class="card">
+    <h1>{{ item.title }}</h1>
+    <div class="meta">
+      <span>Julkaisija: <a href="/user_page/{{ item.user_id }}">{{ item.username }}</a></span>
+      <span>Genre: {{ item.genre }}</span>
+      <span>Hinta: {% if item.price is defined and item.price is not none %}{{ '%.2f'|format(item.price|float) }} €{% else %}—{% endif %}</span>
+    </div>
+    <p>{{ item.content }}</p>
 
-{% if session.user_id == item.user_id %}
-  <p><a href="/edit_item/{{ item.id }}">Muokkaa postaus</a></p>
-  <p><a href="/delete_item/{{ item.id }}">Poista postaus</a></p>
-{% endif %}
+    {% if session.user_id == item.user_id %}
+      <div class="actions">
+        <a href="/edit_item/{{ item.id }}" class="btn">Muokkaa</a>
+        <a href="/delete_item/{{ item.id }}" class="btn">Poista</a>
+      </div>
+    {% endif %}
+  </article>
 
+  <section class="card">
+    <h2>Arviot</h2>
+    {% if ratings %}
+      <p>Keskimääräinen arvio: {{ avg_rating }}/5</p>
+      {% set ns = namespace(has_rated=false) %}
+      <ul class="card-list">
+        {% for rating in ratings %}
+          <li class="card">
+            <strong>{{ rating.rating }}/5</strong> — {{ rating.comment }}
+            {% if rating.user_id == session.user_id %}
+              {% set ns.has_rated = true %}
+            {% endif %}
+            {% if rating.user_id == session.user_id %}
+              <div class="actions">
+                <a href="/edit_rating/{{ rating.id }}" class="btn">Muokkaa</a>
+                <a href="/delete_rating/{{ rating.id }}" class="btn">Poista</a>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Ei arvioita vielä.</p>
+    {% endif %}
+  </section>
 
-<h2>Arvioinnit</h2>
-{% if avg_rating %}
-  <p>Keskiarvo: {{ avg_rating|round(1) }}/5</p>
-{% endif %}
-
-{% if ratings %}
-  <ul>
-    {% for r in ratings %}
-      <li>
-        <strong>{{ r.username }}</strong>: {{ r.rating }}/5
-        {% if r.comment %}
-          - {{ r.comment }}
-        {% endif %}
-        {% if session.user_id and session.user_id == r.user_id %}
-          <a href="/edit_rating/{{ r.id }}">Muokkaa</a>
-          <a href="/delete_rating/{{ r.id }}">Poista</a>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>Ei vielä arvioita.</p>
-{% endif %}
-
-{% if session.user_id and session.user_id != item.user_id %}
-  <h3>Lisää arvio</h3>
-  <form action="/rate_item/{{ item.id }}" method="post">
-    <label>Arvio (1-5): 
-      <select name="rating" required>
-        <option value="">Valitse</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </select>
-    </label><br>
-    <label>Kommentti: 
-      <textarea name="comment" rows="3"></textarea>
-    </label><br>
-    <input type="submit" value="Lähetä arvio">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-  </form>
-{% endif %}
-
-<a href="/">Takaisin</a>
+  {% if session.user_id and session.user_id != item.user_id and (not ns.has_rated) %}
+  <section class="card">
+    <h3>Anna arvio</h3>
+    <form action="/rate_item/{{ item.id }}" method="post" class="form">
+        <label>
+          Numero (1–5)
+          <input type="number" name="rating" min="1" max="5" required>
+        </label>
+        <label>
+          Kommentti
+          <textarea name="comment"></textarea>
+        </label>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button type="submit">Lähetä</button>
+    </form>
+  </section>
+  {% endif %}
+  {% if session.user_id and session.user_id != item.user_id and ns.has_rated %}
+  {% endif %}
+{% endblock %}

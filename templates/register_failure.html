@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<head>
-  <title>Virhe rekisteröinnissä</title>
-  <meta http-equiv="refresh" content="10;url=/register" />
-</head>
-<body>
-  <h1>Virhe tunnuksen luonnissa</h1>
-  <p>{{ message }}</p>
-  <p>Sinut ohjataan automaattisesti takaisin rekisteröintisivulle 10 sekunnin kuluttua.</p>
-  <p><a href="/register">Palaa heti rekisteröintiin</a></p>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Virhe rekisteröinnissä · Pelisivu{% endblock %}
+{% block head_extra %}<meta http-equiv="refresh" content="10;url=/register" />{% endblock %}
+{% block content %}
+  <article class="card">
+    <h1>Virhe tunnuksen luonnissa</h1>
+    <p>{{ message }}</p>
+    <p>Sinut ohjataan automaattisesti takaisin rekisteröintisivulle 10 sekunnin kuluttua.</p>
+    <p><a href="/register">Palaa heti rekisteröintiin</a></p>
+  </article>
+{% endblock %}

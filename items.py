@@ -15,10 +15,10 @@ def create_post(title, content, price, user_id, genre):
     db.execute(sql, [title, content, price, user_id, genre])
 
 def get_all_posts():
-    sql = """ SELECT id, title, content, price, user_id FROM posts ORDER BY id DESC;
+    sql = """ SELECT id, title, content, price, genre, user_id FROM posts ORDER BY id DESC;
     """
     rivit= db.query(sql)
-    return [{"id": r["id"], "title": r["title"]} for r in rivit]
+    return [{"id": r["id"], "title": r["title"], "content": r["content"], "price": r["price"], "genre": r["genre"], "user_id": r["user_id"]} for r in rivit]
 
 def get_item(id):
     sql = """
@@ -39,10 +39,10 @@ def delete_item(id):
     db.execute(sql, [id])
 
 def get_posts_by_user(user_id):
-    sql = """ SELECT id, title, content, price FROM posts WHERE user_id = ? ORDER BY id DESC;
+    sql = """ SELECT id, title, content, price, genre FROM posts WHERE user_id = ? ORDER BY id DESC;
     """
     rivit= db.query(sql, [user_id])
-    return [{"id": r["id"], "title": r["title"]} for r in rivit]
+    return [{"id": r["id"], "title": r["title"], "content": r["content"], "price": r["price"], "genre": r["genre"]} for r in rivit]
 
 def get_user_by_id(id):
     sql = "SELECT id, username FROM users WHERE id = ?"

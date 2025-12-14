@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Kirjautuminen</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}Kirjautuminen · Pelisivu{% endblock %}
+{% block content %}
   {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-  <p>
-    <a href="/logout">Kirjaudu ulos</a>
-  </p>
+    <p>Olet kirjautunut nimellä {{ session.username }}</p>
+    <p><a href="/logout">Kirjaudu ulos</a></p>
   {% else %}
-  <form action="/login" method="post">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password" />
-    </p>
-    <input type="submit" value="Kirjaudu" />
-  </form>
+    <h1>Kirjaudu</h1>
+    <form action="/login" method="post" class="form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label>
+        Tunnus
+        <input type="text" name="username" required />
+      </label>
+      <label>
+        Salasana
+        <input type="password" name="password" required />
+      </label>
+      <button type="submit">Kirjaudu</button>
+    </form>
   {% endif %}
-</body>
-
-</html>
+{% endblock %}

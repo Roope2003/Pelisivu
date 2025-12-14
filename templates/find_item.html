@@ -1,33 +1,27 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Etsi peliä</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}Etsi peliä · Pelisivu{% endblock %}
+{% block content %}
     <h1>Etsi peliä</h1>
-    <form action="/find_item" method="get">
-        <p>
-            Otsikko: <br />
-            <input type="text" name="title" value = "{{title or ""}}" />
-        </p>    
-        <input type="submit" value="Hae" />
+    <form action="/find_item" method="get" class="form">
+        <label>
+            Otsikko
+            <input type="text" name="title" value="{{ title or '' }}" />
+        </label>
+        <button type="submit">Hae</button>
     </form>
 
-    <p>
-        <a href="/">Takaisin</a>
-    </p>
-
     {% if title %}
-    <h2>Tulokset</h2>
-    <ul>
-        {% for post in results %}
-        <li>
-            <a href="/item/{{ post.id }}">{{ post.title }}</a>
-        </li>   
-        {% endfor %}
+        <h2>Tulokset</h2>
+        {% if results %}
+            <ul class="card-list">
+                {% for post in results %}
+                    <li class="card">
+                        <a href="/item/{{ post.id }}">{{ post.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">Ei osumia.</p>
+        {% endif %}
     {% endif %}
-</body>
-
-</html>        
+{% endblock %}

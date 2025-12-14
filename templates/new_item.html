@@ -1,24 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Uusi Postaus</title>
-</head>
-<body>
-  <form action="/create_item" method="post">
-    <p>
-      Otsikko: <br />
-      <input type="text" name="title" />
-    </p>
-    <p>
-      Sisältö: <br />
-      <textarea name="content" rows="5" cols="40"></textarea>
-    </p>
-    <p>
-      Hinta: <br />
-      <input type="number" name="price" step="0.01" /> €
-    </p>
-    <p>
-      Genre: <br />
+{% extends "base.html" %}
+{% block title %}Uusi peli · Pelisivu{% endblock %}
+{% block content %}
+  <h1>Luo uusi peli</h1>
+  <form action="/create_item" method="post" class="form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>
+      Otsikko
+      <input type="text" name="title" required />
+    </label>
+    <label>
+      Kuvaus
+      <textarea name="content" rows="5"></textarea>
+    </label>
+    <label>
+      Hinta (€)
+      <input type="number" name="price" step="0.01" min="0" />
+    </label>
+    <label>
+      Genre
       <select name="genre">
         <option value="Toiminta">Toiminta</option>
         <option value="Seikkailu">Seikkailu</option>
@@ -27,9 +26,7 @@
         <option value="Simulaatio">Simulaatio</option>
         <option value="Muu">Muu</option>
       </select>
-    </p>
-    <input type="submit" value="Lisää postaus" />
-    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    </label>
+    <button type="submit">Julkaise peli</button>
   </form>
-</body>
-</html>
+{% endblock %}

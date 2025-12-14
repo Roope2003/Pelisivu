@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Poista arvio</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Poista arvio · Pelisivu{% endblock %}
+{% block content %}
+  <article class="card">
     <h1>Poista arvio</h1>
     <p>Haluatko varmasti poistaa arvion?</p>
-    <form action="/delete_rating/{{ rating.id }}" method="post">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}"> 
-        <input type="submit" name="remove" value="Poista arvio">
-        <input type="submit" name="back" value="Peruuta">
+    <form action="/delete_rating/{{ rating.id }}" method="post" class="form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <div class="actions">
+        <button type="submit" name="remove">Poista arvio</button>
+        <button type="submit" name="back">Peruuta</button>
+      </div>
     </form>
-</body>
-</html>
+  </article>
+{% endblock %}

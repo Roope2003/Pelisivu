@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Peli julkaisun poisto</title>
-</head>
-
-<body>
-    <h1>Peli julkaisun poisto</h1>   
-    <p> Peli: {{ item.title }}</p>
+{% extends "base.html" %}
+{% block title %}Poista julkaisu · Pelisivu{% endblock %}
+{% block content %}
+  <article class="card">
+    <h1>Peli julkaisun poisto</h1>
+    <p>Peli: {{ item.title }}</p>
     <p>Julkaisija: {{ item.username }}</p>
-
     <p>Haluatko varmasti poistaa julkaisun?</p>
-
-    <form action="/delete_item/{{ item.id }}" method="post">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-        <input type="submit" name="remove" value="Poista julkaisu">
-        <input type="submit" name="back" value="Takaisin">
+    <form action="/delete_item/{{ item.id }}" method="post" class="form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <div class="actions">
+        <button type="submit" name="remove">Poista julkaisu</button>
+        <button type="submit" name="back">Takaisin</button>
+      </div>
     </form>
-</body>
-
-</html>
+  </article>
+{% endblock %}

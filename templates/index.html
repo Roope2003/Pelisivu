@@ -1,66 +1,45 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>PeliSivu</title>
-</head>
-
-<body>
-    <h1>PeliSivu</h1>
+{% extends "base.html" %}
+{% block title %}Etusivu · Pelisivu{% endblock %}
+{% block content %}
+  <h1>Pelit</h1>
 
   {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}, ja id-numerosi on {{ session.user_id }}
-  </p>
-  <p>
-  <p>
-    <a href="/logout">Kirjaudu ulos</a>
-  </p>
-  <p>
-    <a href="/register">Luo tunnus</a>
-  </p>
-    <p>
-    <a href="/new_item">Luo uusi postaus</a>
-    <a href="/find_item">Etsi peliä </a>
-    <a href="/user_page/{{ session.user_id }}">Käyttäjän tiedot</a>
-  </p>
-{% if posts %}
-<h2>Pelit</h2>
-<ul>
-  {% for post in posts %}
-    <li>
-      <a href="/item/{{ post.id }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+    <p>Olet kirjautunut nimellä {{ session.username }}, id {{ session.user_id }}</p>
+    <div class="actions">
+      <a class="btn" href="/new_item">Luo uusi postaus</a>
+      <a class="btn" href="/find_item">Etsi peliä</a>
+      <a class="btn" href="/user_page/{{ session.user_id }}">Käyttäjän tiedot</a>
+    </div>
+  {% else %}
+    <form action="/login" method="post" class="form">
+      <label>
+        Tunnus
+        <input type="text" name="username" required />
+      </label>
+      <label>
+        Salasana
+        <input type="password" name="password" required />
+      </label>
+      <button type="submit">Kirjaudu</button>
+    </form>
+    <p class="muted">— tai —</p>
+    <p><a class="btn" href="/register">Luo uusi tunnus</a></p>
+  {% endif %}
 
-
-{% else %}
-  <p>Ei vielä postauksia.</p>
-{% endif %}
-
-
-{% else %}
-  <form action="/login" method="post">
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password" />
-    </p>
-    <p>
-      <input type="submit" value="Kirjaudu" />
-    </p>
-  </form>
-
-  <p>— tai —</p>
-  
-  <p>
-    <a href="/register">Luo uusi tunnus</a>
-  </p>
-{% endif %}
-</body>
-
-</html>
+  {% if posts %}
+    <ul class="card-list">
+      {% for post in posts %}
+        <li class="card">
+          <h2><a href="/item/{{ post.id }}">{{ post.title }}</a></h2>
+          <p>{{ post.content }}</p>
+          <div class="meta">
+            <span>Genre: {{ post.genre }}</span>
+            <span>Hinta: {{ post.price }} €</span>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted">Ei vielä postauksia.</p>
+  {% endif %}
+{% endblock %}
