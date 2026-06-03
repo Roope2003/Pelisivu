@@ -2,8 +2,10 @@
 <html>
 <head>
   <title>Muokkaa postaus</title>
+  <link href="/static/css/style.css" rel="stylesheet">
 </head>
 <body>
+  <div class="container">
   <h1>Muokkaa julkaisua</h1>
 
   <form action="/update_item/{{ item.id }}" method="post">
@@ -38,5 +40,6 @@
     <input type="hidden" name="id" value="{{ item.id }}">
     <input type="submit" value="Tallenna muutokset">
   </form>
+  </div>
 </body>
 </html> 

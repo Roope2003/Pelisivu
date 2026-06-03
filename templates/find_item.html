@@ -3,9 +3,11 @@
 
 <head>
   <title>Etsi peliä</title>
+    <link href="/static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
+    <div class="container">
     <h1>Etsi peliä</h1>
     <form action="/find_item" method="get">
         <p>
@@ -28,6 +30,8 @@
         </li>   
         {% endfor %}
     {% endif %}
+    </ul>
+    </div>
 </body>
 
 </html>        

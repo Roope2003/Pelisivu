@@ -2,15 +2,19 @@
 <html>
 <head>
   <title>Uusi Postaus</title>
+  <link href="/static/css/style.css" rel="stylesheet">
+
 </head>
 <body>
+    <div class="container">
+    <h1>Lisää uusi peli</h1>
   <form action="/create_item" method="post">
     <p>
       Otsikko: <br />
       <input type="text" name="title" />
     </p>
     <p>
-      Sisältö: <br />
+      Kuvaus: <br />
       <textarea name="content" rows="5" cols="40"></textarea>
     </p>
     <p>
@@ -31,5 +35,9 @@
     <input type="submit" value="Lisää postaus" />
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
   </form>
+  <p>
+    <a href="/">Takaisin</a>
+  </p>
+    </div>
 </body>
 </html>

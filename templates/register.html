@@ -3,9 +3,12 @@
 
 <head>
   <title>Rekisteröinti</title>
+  <link href="/static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
+  <div class="container">
+  <h1>Luo uusi tunnus</h1>
   <form action="/create" method="post">
     <p>
       Tunnus: <br />
@@ -22,6 +25,10 @@
     <input type="submit" value="Luo tunnus" />
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
   </form>
+  <p>
+    <a href="/">Takaisin</a>
+  </p>
+  </div>
 </body>
 
 </html>

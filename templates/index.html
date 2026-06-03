@@ -3,9 +3,11 @@
 
 <head>
   <title>PeliSivu</title>
+  <link href="/static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
+  <div class="container">
     <h1>PeliSivu</h1>
 
   {% if session.username %}
@@ -14,25 +16,40 @@
   </p>
   <p>
   <p>
+
+  <div class="links">
     <a href="/logout">Kirjaudu ulos</a>
   </p>
   <p>
     <a href="/register">Luo tunnus</a>
   </p>
     <p>
-    <a href="/new_item">Luo uusi postaus</a>
-    <a href="/find_item">Etsi peliä </a>
+    <a href="/new_item">Lisää uusi peli</a>
+    </p>
+
+    </a>
+  </div>
+  
+  <div class="userinfo">
+  <p>
     <a href="/user_page/{{ session.user_id }}">Käyttäjän tiedot</a>
   </p>
+  </div>
+
 {% if posts %}
-<h2>Pelit</h2>
-<ul>
-  {% for post in posts %}
-    <li>
-      <a href="/item/{{ post.id }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+<div class="posts">
+    <div class="posts_header">
+        <h2>Pelit</h2>
+        <a href="/find_item">Etsi peliä</a>
+    </div>
+    <ul>
+    {% for post in posts %}
+        <li>
+            <a href="/item/{{ post.id }}">{{ post.title }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
 
 
 {% else %}
@@ -61,6 +78,7 @@
     <a href="/register">Luo uusi tunnus</a>
   </p>
 {% endif %}
+  </div>
 </body>
 
 </html>

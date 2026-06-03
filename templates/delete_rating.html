@@ -2,8 +2,11 @@
 <html>
 <head>
   <title>Poista arvio</title>
+  <link href="/static/css/style.css" rel="stylesheet">
+
 </head>
 <body>
+    <div class="container">
     <h1>Poista arvio</h1>
     <p>Haluatko varmasti poistaa arvion?</p>
     <form action="/delete_rating/{{ rating.id }}" method="post">
@@ -11,5 +14,6 @@
         <input type="submit" name="remove" value="Poista arvio">
         <input type="submit" name="back" value="Peruuta">
     </form>
+    </div>
 </body>
 </html>

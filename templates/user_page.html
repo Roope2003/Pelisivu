@@ -2,8 +2,10 @@
 <html>
 <head>
   <title>Käyttäjän tiedot</title>   
+  <link href="/static/css/style.css" rel="stylesheet">
 </head> 
 <body>
+    <div class="container">
     <h1>Käyttäjän tiedot</h1>   
     <p>Käyttäjänimi: {{ user.username }}</p>
     <h2>Käyttäjän julkaisut</h2>
@@ -35,7 +37,7 @@
     {% else %}
       <p>Ei vielä arvioita.</p>
     {% endif %}
-
+    </div>
 </body>
 </html>
 </body>

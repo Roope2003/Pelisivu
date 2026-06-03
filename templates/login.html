@@ -3,9 +3,11 @@
 
 <head>
   <title>Kirjautuminen</title>
+  <link href="/static/css/style.css" rel="stylesheet">
 </head>
 
 <body>
+  <div class="container">
   {% if session.username %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}
@@ -27,6 +29,7 @@
     <input type="submit" value="Kirjaudu" />
   </form>
   {% endif %}
+  </div>
 </body>
 
 </html>

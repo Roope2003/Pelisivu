@@ -1,3 +1,12 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <title>{{ item.title }}</title>
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
 <h1>{{ item.title }}</h1>
 <p>Julkaisija: <a href="/user_page/{{ item.user_id }}">{{ item.username }}</a></p>
 <p>Genre: {{ item.genre }}</p>
@@ -56,3 +65,7 @@
 {% endif %}
 
 <a href="/">Takaisin</a>
+</div>
+</body>
+
+</html>

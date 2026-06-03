@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <title>Peli julkaisun poisto</title>
+  <link href="/static/css/style.css" rel="stylesheet">
+
 </head>
 
 <body>
+<div class="container">
     <h1>Peli julkaisun poisto</h1>   
     <p> Peli: {{ item.title }}</p>
     <p>Julkaisija: {{ item.username }}</p>
@@ -17,6 +19,8 @@
         <input type="submit" name="remove" value="Poista julkaisu">
         <input type="submit" name="back" value="Takaisin">
     </form>
+
+</div>
 </body>
 
 </html>

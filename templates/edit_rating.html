@@ -2,8 +2,10 @@
 <html>
 <head>
   <title>Muokkaa arviota</title>
+    <link href="/static/css/style.css" rel="stylesheet">
 </head>
 <body>
+    <div class="container">
     <h1>Muokkaa arviota</h1>
     <form action="/edit_rating/{{ rating.id }}" method="post">
         <label>Arvio (1-5): 
@@ -22,5 +24,6 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>
     <a href="/">Takaisin</a>
+    </div>
 </body>
 </html>
