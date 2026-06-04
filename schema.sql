@@ -15,7 +15,7 @@ CREATE TABLE posts (
 
 CREATE TABLE ratings (
     id INTEGER PRIMARY KEY,
-    post_id INTEGER REFERENCES posts(id),
+    post_id INTEGER REFERENCES posts(id) ON DELETE CASCADE,
     user_id INTEGER REFERENCES users(id),
     rating INTEGER CHECK(rating >= 1 AND rating <= 5),
     comment TEXT,
