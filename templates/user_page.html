@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Käyttäjän tiedot</title>   
+  <title>Käyttäjän tiedot</title>
   <link href="/static/css/style.css" rel="stylesheet">
-</head> 
+</head>
 <body>
     <div class="container">
     <h1>Käyttäjän tiedot</h1>   
@@ -13,7 +13,7 @@
     <ul>
       {% for post in posts %}
         <li>
-            <a href="/item/{{ post.id }}">{{ post.title }}</a>
+          <a href="/item/{{ post.id }}">{{ post.title }}</a>
         </li>
       {% endfor %}
     </ul>
@@ -21,7 +21,7 @@
       <p>Ei vielä julkaistuja pelejä.</p>
     {% endif %}
 
-    <h3>Käyttäjän jättämät arvioinnit</h3>
+    <h3>Käyttäjän antamat arviot</h3>
     {% if ratings %}
     <ul>
       {% for rating in ratings %}
@@ -34,11 +34,9 @@
       {% endfor %}
     </ul>
     {% else %}
-      <p>Ei vielä arvioita.</p>
+      <p>Ei vielä annettuja arvioita.</p>
     {% endif %}
-    <p><a href="/">Takaisin</a></p>
-    </div>
-</body>
-</html>
+    <p><a href="/">Takaisin etusivulle</a></p>
+  </div>
 </body>
 </html>

@@ -196,7 +196,11 @@ def rate_item(id):
     try:
         items.create_rating(id, session["user_id"], rating, comment)
     except sqlite3.IntegrityError:
-        return "Olet jo arvioinut tämän pelin"
+
+        current_rating = items.user_has_rated(id, session["user_id"])
+        rating_id = current_rating[0]["id"]
+
+        return render_template("rating_failure.html", rating_id=rating_id)
 
     return redirect("/item/"+str(id))
 

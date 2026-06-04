@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Peli julkaisun poisto</title>
-  <link href="/static/css/style.css" rel="stylesheet">
+    <title>Julkaisun poistaminen</title>
+    <link href="/static/css/style.css" rel="stylesheet">
 
 </head>
 
 <body>
 <div class="container">
-    <h1>Peli julkaisun poisto</h1>   
-    <p> Peli: {{ item.title }}</p>
+    <h1>Julkaisun poistaminen</h1>
+    <p>Peli: {{ item.title }}</p>
     <p>Julkaisija: {{ item.username }}</p>
 
-    <p>Haluatko varmasti poistaa julkaisun?</p>
+    <p>Haluatko varmasti poistaa tämän julkaisun?</p>
 
     <form action="/delete_item/{{ item.id }}" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">

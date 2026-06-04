@@ -8,10 +8,10 @@
 
 <body>
   <div class="container">
-  <h1>Luo uusi tunnus</h1>
+  <h1>Luo tunnus</h1>
   <form action="/create" method="post">
     <p>
-      Tunnus: <br />
+      Käyttäjätunnus: <br />
       <input type="text" name="username" />
     </p>
     <p>
@@ -19,14 +19,14 @@
       <input type="password" name="password1" />
     </p>
     <p>
-      Salasana uudestaan: <br />
+      Salasana uudelleen: <br />
       <input type="password" name="password2" />
     </p>
     <input type="submit" value="Luo tunnus" />
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
   </form>
   <p>
-    <a href="/">Takaisin</a>
+    <a href="/">Palaa etusivulle</a>
   </p>
   </div>
 </body>

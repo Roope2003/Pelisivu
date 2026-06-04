@@ -7,10 +7,10 @@
 </head>
 <body>
     <div class="container">
-    <h1>Lisää uusi peli</h1>
+    <h1>Julkaise uusi peli</h1>
   <form action="/create_item" method="post">
     <p>
-      Otsikko: <br />
+      Pelin nimi: <br />
       <input type="text" name="title" />
     </p>
     <p>
@@ -32,11 +32,11 @@
         <option value="Muu">Muu</option>
       </select>
     </p>
-    <input type="submit" value="Lisää peli" />
+    <input type="submit" value="Julkaise peli" />
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
   </form>
   <p>
-    <a href="/">Takaisin</a>
+    <a href="/">Palaa etusivulle</a>
   </p>
     </div>
 </body>

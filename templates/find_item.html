@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Etsi peliä</title>
+    <title>Etsi peliä</title>
     <link href="/static/css/style.css" rel="stylesheet">
 </head>
 
@@ -11,15 +11,13 @@
     <h1>Etsi peliä</h1>
     <form action="/find_item" method="get">
         <p>
-            Otsikko: <br />
+            Pelin nimi: <br />
             <input type="text" name="title" value = "{{title or ""}}" />
         </p>    
-        <input type="submit" value="Hae" />
+        <input type="submit" value="Hae peliä" />
     </form>
 
-    <p>
-        <a href="/">Takaisin</a>
-    </p>
+
 
     {% if title %}
     <h2>Tulokset</h2>
@@ -29,9 +27,16 @@
             <a href="/item/{{ post.id }}">{{ post.title }}</a>
         </li>   
         {% endfor %}
-    {% endif %}
     </ul>
+    {% else %}
+    <p>Ei hakutuloksia.</p>
+    {% endif %}
+    <p>
+        <a href="/">Palaa etusivulle</a>
+    </p>
+
     </div>
+
 </body>
 
 </html>        

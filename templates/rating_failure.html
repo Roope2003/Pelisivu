@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arvion luonti epäonnistui</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+    <h1>Arvion luonti epäonnistui</h1>
+    <p>Olet jo arvioinut pelin.</p>
+
+    {% if rating_id %}
+    <p><a href="/edit_rating/{{ rating_id }}">Muokkaa nykyistä arviotasi</a></p>
+    {% endif %}
+
+    <p><a href="/">Palaa etusivulle</a></p>
+    </div>
+</body>
+</html>

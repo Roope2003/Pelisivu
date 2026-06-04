@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Poista arvio</title>
-  <link href="/static/css/style.css" rel="stylesheet">
+    <title>Arvion poistaminen</title>
+    <link href="/static/css/style.css" rel="stylesheet">
 
 </head>
 <body>
     <div class="container">
-    <h1>Poista arvio</h1>
-    <p>Haluatko varmasti poistaa arvion?</p>
+    <h1>Arvion poistaminen</h1>
+    <p>Haluatko varmasti poistaa tämän arvion?</p>
     <form action="/delete_rating/{{ rating.id }}" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}"> 
         <input type="submit" name="remove" value="Poista arvio">

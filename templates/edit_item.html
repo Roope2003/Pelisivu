@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Muokkaa postaus</title>
+  <title>Muokkaa peliä</title>
   <link href="/static/css/style.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-  <h1>Muokkaa julkaisua</h1>
+  <h1>Muokkaa peliä</h1>
 
   <form action="/update_item/{{ item.id }}" method="post">
     <p>
@@ -31,8 +31,7 @@
         <option value="Seikkailu" {% if item.genre == "Seikkailu" %}selected{% endif %}>Seikkailu</option>
         <option value="RPG" {% if item.genre == "RPG" %}selected{% endif %}>RPG</option>
         <option value="Strategia" {% if item.genre == "Strategia" %}selected{% endif %}>Strategia</option>
-        <option value="Simulaatio" {% if item.genre == "Simulaatio" %}selected{% endif %}
-        >Simulaatio</option>
+        <option value="Simulaatio" {% if item.genre == "Simulaatio" %}selected{% endif %}>Simulaatio</option>
         <option value="Muu" {% if item.genre == "Muu" %}selected{% endif %}>Muu</option>
       </select>
     </p>
