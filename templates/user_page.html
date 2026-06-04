@@ -8,7 +8,7 @@
     <div class="container">
     <h1>Käyttäjän tiedot</h1>   
     <p>Käyttäjänimi: {{ user.username }}</p>
-    <h2>Käyttäjän julkaisut</h2>
+    <h2>Käyttäjän julkaisemat pelit</h2>
     {% if posts %}
     <ul>
       {% for post in posts %}
@@ -18,9 +18,8 @@
       {% endfor %}
     </ul>
     {% else %}
-      <p>Ei vielä julkaisuja.</p>
+      <p>Ei vielä julkaistuja pelejä.</p>
     {% endif %}
-    <a href="/">Takaisin</a>
 
     <h3>Käyttäjän jättämät arvioinnit</h3>
     {% if ratings %}
@@ -37,6 +36,7 @@
     {% else %}
       <p>Ei vielä arvioita.</p>
     {% endif %}
+    <p><a href="/">Takaisin</a></p>
     </div>
 </body>
 </html>

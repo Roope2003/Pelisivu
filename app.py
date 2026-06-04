@@ -78,12 +78,14 @@ def update_item(id):
     price=request.form.get("price", 0)
     genre=request.form.get("genre", "Muu")
     user_id=session["user_id"]
+
     items.update_item(id, title, content, price, genre, user_id)
     return redirect("/item/"+str(id))
 
 @app.route("/delete_item/<int:id>",methods = ["GET","POST"])
 def delete_item(id):
     item = items.get_item(id)
+
     if not item:
         abort(404)
     if item["user_id"] !=session["user_id"]:
@@ -146,7 +148,7 @@ def login():
         result = items.get_user(username)
         
         if not result:
-            return "VIRHE: väärä tunnus tai salasana"
+            return render_template("login_failure.html")
         
         user_id = result["id"]
         password_hash = result["password_hash"]
@@ -156,7 +158,7 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            return render_template("login_failure.html")
 
 @app.route("/user_page/<int:id>")
 def user_page(id):
@@ -176,9 +178,12 @@ def logout():
 def rate_item(id):
     if "user_id" not in session:
         abort(403)
+
     item = items.get_item(id)
+
     if not item:
         abort(404)
+
     if item["user_id"] == session["user_id"]:
         abort(403) 
 
@@ -200,6 +205,7 @@ def edit_rating(rating_id):
     rating = items.get_rating(rating_id)
     if not rating:
         abort(404)
+
     if rating["user_id"] != session.get("user_id"):
         abort(403)
 

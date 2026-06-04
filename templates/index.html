@@ -36,10 +36,10 @@
   </p>
   </div>
 
-{% if posts %}
 <div class="posts">
     <div class="posts_header">
         <h2>Pelit</h2>
+        {% if posts %}
         <a href="/find_item">Etsi peliä</a>
     </div>
     <ul>
@@ -48,13 +48,14 @@
             <a href="/item/{{ post.id }}">{{ post.title }}</a>
         </li>
     {% endfor %}
+      {% else %}
+    <p>Ei löydetty pelejä.</p>
+    {% endif %}
     </ul>
 </div>
 
 
-{% else %}
-  <p>Ei vielä postauksia.</p>
-{% endif %}
+
 
 
 {% else %}
