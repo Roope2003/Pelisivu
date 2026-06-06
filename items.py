@@ -1,4 +1,3 @@
-import sqlite3
 import db
 
 def create_user(username, password_hash):
@@ -20,23 +19,28 @@ def get_all_posts():
     rivit= db.query(sql)
     return [{"id": r["id"], "title": r["title"]} for r in rivit]
 
-def get_item(id):
+def get_item(item_id):
     sql = """
         SELECT posts.id, posts.title, posts.content, posts.price, posts.genre, users.username, posts.user_id
         FROM posts
         JOIN users ON posts.user_id = users.id
         WHERE posts.id = ?
     """
-    result = db.query(sql, [id])
+    result = db.query(sql, [item_id])
     return result[0] if result else None
 
-def update_item(id, title, content, price, genre, user_id):
+def update_item(item_id, item_data):
     sql = "UPDATE posts SET title=?, content=?, price=?, genre=?, user_id=? WHERE id=?"
-    db.execute(sql, [title, content, price, genre, user_id, id])
+    title = item_data["title"]
+    content = item_data["content"]
+    price = item_data["price"]
+    genre = item_data["genre"]
+    user_id = item_data["user_id"]
+    db.execute(sql, [title, content, price, genre, user_id, item_id])
 
-def delete_item(id):
+def delete_item(item_id):
     sql = "DELETE FROM posts WHERE id=?"
-    db.execute(sql, [id])
+    db.execute(sql, [item_id])
 
 def get_posts_by_user(user_id):
     sql = """ SELECT id, title, content, price FROM posts WHERE user_id = ? ORDER BY id DESC;
@@ -44,19 +48,19 @@ def get_posts_by_user(user_id):
     rivit= db.query(sql, [user_id])
     return [{"id": r["id"], "title": r["title"]} for r in rivit]
 
-def get_user_by_id(id):
+def get_user_by_id(user_id):
     sql = "SELECT id, username FROM users WHERE id = ?"
-    result = db.query(sql, [id])
+    result = db.query(sql, [user_id])
     return result[0] if result else None
 
 def find_items(title):
-        sql = """SELECT id, title
-        FROM posts
-        WHERE title LIKE ? or  content like ?
-        ORDER BY id DESC"""
-        like = "%" + title + "%"
-        result = db.query(sql, [like, like])
-        return result
+    sql = """SELECT id, title
+    FROM posts
+    WHERE title LIKE ? or  content like ?
+    ORDER BY id DESC"""
+    like = "%" + title + "%"
+    result = db.query(sql, [like, like])
+    return result
 
 def create_rating(post_id, user_id, rating, comment):
     sql = "INSERT INTO ratings (post_id, user_id, rating, comment) VALUES (?, ?, ?, ?)"
