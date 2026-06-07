@@ -48,7 +48,8 @@ def create_item():
     title = request.form["title"]
     content = request.form["content"]
     price = request.form.get("price", 0)
-    genre = request.form.get("genre", "Muu")
+    genres = request.form.getlist("genre")
+    genre = ",".join([g for g in genres])
     user_id = session["user_id"]
     items.create_post(title, content, price, user_id, genre)
     return redirect("/")
@@ -75,7 +76,8 @@ def update_item(item_id):
     title=request.form["title"]
     content=request.form["content"]
     price=request.form.get("price", 0)
-    genre=request.form.get("genre", "Muu")
+    genres = request.form.getlist("genre")
+    genre = ",".join([g for g in genres])
     user_id=session["user_id"]
     item_data = {"title": title, "content": content, "price": price, "genre": genre,
                 "user_id": user_id,}

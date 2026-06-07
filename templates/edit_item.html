@@ -27,7 +27,7 @@
     <p>
       Genre: <br>
       <label for="genre">Genre</label>
-      <select name="genre" id="genre">
+      <select name="genre" id="genre" multiple size="6">
         <option value="Toiminta" {% if item.genre == "Toiminta" %}selected{% endif %}>Toiminta</option>
         <option value="Seikkailu" {% if item.genre == "Seikkailu" %}selected{% endif %}>Seikkailu</option>
         <option value="RPG" {% if item.genre == "RPG" %}selected{% endif %}>RPG</option>
