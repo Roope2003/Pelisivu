@@ -17,9 +17,9 @@
                 <option value="5" {% if rating.rating == 5 %}selected{% endif %}>5</option>
             </select>
         </label><br>
-        <label>Kommentti: 
-            <textarea name="comment" rows="3">{{ rating.comment }}</textarea>
-        </label><br>
+        <label for="kommentti">Kommentti:</label> 
+            <textarea id=kommentti name="comment" rows="3">{{ rating.comment }}</textarea>
+        <br>
         <input type="submit" value="Päivitä arvio">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     </form>

@@ -50,14 +50,15 @@
 
 
 {% else %}
-  <form action="/login" method="post">
+
+  <form action="/login" method="post" class=login-form>
     <p>
-      Käyttäjätunnus: <br />
-      <input type="text" name="username" />
+      <label for="nimi">Käyttäjätunnus:</label>
+      <input id="nimi" type="text" name="username" />
     </p>
     <p>
-      Salasana: <br />
-      <input type="password" name="password" />
+      <label for="pass">Salasana:</label>
+      <input id="pass" type="password" name="password" />
     </p>
     <p>
       <input type="submit" value="Kirjaudu" />

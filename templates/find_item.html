@@ -11,8 +11,8 @@
     <h1>Etsi peliä</h1>
     <form action="/find_item" method="get">
         <p>
-            Pelin nimi: <br />
-            <input type="text" name="title" value = "{{title or ""}}" />
+            <label for="nimi">Pelin nimi:</label>
+            <input id="nimi" type="text" name="title" value = "{{title or ""}}" />
         </p>    
         <input type="submit" value="Hae peliä" />
     </form>

@@ -12,15 +12,18 @@
   <form action="/create" method="post">
     <p>
       Käyttäjätunnus: <br />
-      <input type="text" name="username" />
+      <label for="name">Käyttäjätunnus</label>
+      <input id="name" type="text" name="username" />
     </p>
     <p>
       Salasana: <br />
-      <input type="password" name="password1" />
+      <label for="pass">Salasana</label>
+      <input id="pass" type="password" name="password1" />
     </p>
     <p>
       Salasana uudelleen: <br />
-      <input type="password" name="password2" />
+      <label for="passpass">Salasana uudelleen:</label>
+      <input id=passpass type="password" name="password2" />
     </p>
     <input type="submit" value="Luo tunnus" />
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">

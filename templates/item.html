@@ -11,8 +11,7 @@
 <p>Julkaisija: <a href="/user_page/{{ item.user_id }}">{{ item.username }}</a></p>
 <p>Genre: {{ item.genre }}</p>
 <p>Hinta: {{ item.price }} €</p>
-<p>Kuvaus: {{ item.content }}</p>
-
+<p style="white-space: pre-wrap;">{{ item.content }}</p>
 {% if session.user_id == item.user_id %}
   <p><a href="/edit_item/{{ item.id }}">Muokkaa julkaisua</a></p>
   <p><a href="/delete_item/{{ item.id }}">Poista julkaisu</a></p>
@@ -30,7 +29,8 @@
       <li>
         <strong><a href="/user_page/{{ r.user_id }}">{{ r.username }}</a></strong>: {{ r.rating }}/5
         {% if r.comment %}
-          - {{ r.comment }}
+          - <p style="white-space: pre-wrap;">{{ r.comment }}</p>
+
         {% endif %}
         {% if session.user_id and session.user_id == r.user_id %}
           <a href="/edit_rating/{{ r.id }}">Muokkaa arviota</a>
@@ -56,9 +56,9 @@
         <option value="5">5</option>
       </select>
     </label><br>
-    <label>Kommentti: 
-      <textarea name="comment" rows="3"></textarea>
-    </label><br>
+    <label for="kommentti">Kommentti</label>
+    <textarea id="kommentti" name="comment" rows="3"></textarea>
+    <br>
     <input type="submit" value="Lähetä arvio">
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
   </form>

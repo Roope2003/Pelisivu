@@ -10,23 +10,24 @@
 
   <form action="/update_item/{{ item.id }}" method="post">
     <p>
-      Otsikko: <br>
-      <input type="text" name="title" value="{{ item.title }}">
+      <label for="title">Otsikko</label>
+      <input type="text" name="title" value="{{ item.title }}" id="title">
     </p>
 
     <p>
-      Kuvaus: <br>
-      <textarea name="content" rows="5" cols="40">{{ item.content }}</textarea>
+      <label for="desc">Kuvaus</label>
+      <textarea id="desc" name="content" rows="5" cols="40">{{ item.content }} </textarea>
     </p>
 
     <p>
-      Hinta: <br>
-      <input type="number" name="price" step="0.01" value="{{ item.price }}">
+      <label for="hinta">Hinta</label>
+      <input type="number" name="price" step="0.01" value="{{ item.price }}" id="hinta">
     </p>
 
     <p>
       Genre: <br>
-      <select name="genre">
+      <label for="genre">Genre</label>
+      <select name="genre" id="genre">
         <option value="Toiminta" {% if item.genre == "Toiminta" %}selected{% endif %}>Toiminta</option>
         <option value="Seikkailu" {% if item.genre == "Seikkailu" %}selected{% endif %}>Seikkailu</option>
         <option value="RPG" {% if item.genre == "RPG" %}selected{% endif %}>RPG</option>

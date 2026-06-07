@@ -102,3 +102,10 @@ a:hover {
     align-items: center;
     gap: 1rem;
 }
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 250px;
+}
