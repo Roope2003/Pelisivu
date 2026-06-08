@@ -9,20 +9,17 @@
 <body>
   <div class="container">
   <h1>Luo tunnus</h1>
-  <form action="/create" method="post">
+  <form action="/create" method="post" class=register-form>
     <p>
-      Käyttäjätunnus: <br />
-      <label for="name">Käyttäjätunnus</label>
+      <label for="name">Käyttäjätunnus:</label>
       <input id="name" type="text" name="username" />
     </p>
     <p>
-      Salasana: <br />
-      <label for="pass">Salasana</label>
+      <label for="pass">Salasana:</label>
       <input id="pass" type="password" name="password1" />
     </p>
     <p>
-      Salasana uudelleen: <br />
-      <label for="passpass">Salasana uudelleen:</label>
+      <label for="passpass">Toista salasana:</label>
       <input id=passpass type="password" name="password2" />
     </p>
     <input type="submit" value="Luo tunnus" />
