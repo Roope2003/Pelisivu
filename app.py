@@ -22,6 +22,16 @@ def csrf_protect():
         form_token = request.form.get("csrf_token")
         if not session_token or session_token != form_token:
             abort(403)
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
+def verify_owner(obj):
+    if not obj:
+        abort(404)
+    if obj["user_id"] !=session["user_id"]:
+        abort(403)
+
 
 
 @app.route("/")
@@ -32,6 +42,7 @@ def index():
 
 @app.route("/new_item")
 def new_item():
+    require_login()
     return render_template("new_item.html")
 
 @app.route("/item/<int:item_id>")
@@ -39,39 +50,38 @@ def show_item(item_id):
     item = items.get_item(item_id)
     if not item:
         abort(404)
+
     ratings = items.get_ratings(item_id)
     avg_rating = items.get_average_rating(item_id)
     return render_template("item.html", item=item, ratings=ratings, avg_rating=avg_rating)
 
 @app.route("/create_item", methods=["POST"])
 def create_item():
+    require_login()
+
     title = request.form["title"]
     content = request.form["content"]
     price = request.form.get("price", 0)
     genres = request.form.getlist("genre")
     genre = ",".join([g for g in genres])
     user_id = session["user_id"]
+
     items.create_post(title, content, price, user_id, genre)
     return redirect("/")
 
 
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
+    require_login()
     item = items.get_item(item_id)
-    if not item:
-        abort(404)
-    if item["user_id"] !=session["user_id"]:
-        abort(403)
+    verify_owner(item)
     return render_template("edit_item.html", item=item)
 
 @app.route("/update_item/<int:item_id>", methods=["POST"])
 def update_item(item_id):
-
+    require_login()
     item = items.get_item(item_id)
-    if not item:
-        abort(404)
-    if item["user_id"] !=session["user_id"]:
-        abort(403)
+    verify_owner(item)
 
     title=request.form["title"]
     content=request.form["content"]
@@ -86,12 +96,10 @@ def update_item(item_id):
 
 @app.route("/delete_item/<int:item_id>", methods=["GET", "POST"])
 def delete_item(item_id):
+    require_login()
     item = items.get_item(item_id)
+    verify_owner(item)
 
-    if not item:
-        abort(404)
-    if item["user_id"] !=session["user_id"]:
-        abort(403)
     if request.method == "GET":
         return render_template("delete_item.html", item=item)
     if "remove" in request.form:
@@ -105,11 +113,13 @@ def delete_item(item_id):
 @app.route("/find_item", methods=["GET","POST"])
 def find_item():
     title = request.args.get("title", "")
+
     if title:
         results = items.find_items(title)
     else:
         title = " "
         results = []
+
     title = request.args.get("title")
     return render_template("find_item.html", title=title, results=results)
 
@@ -165,8 +175,10 @@ def login():
 @app.route("/user_page/<int:user_id>")
 def user_page(user_id):
     user = items.get_user_by_id(user_id)
+
     if not user:
         abort(404)
+
     posts = items.get_posts_by_user(user_id)
     ratings = items.get_user_ratings(user_id)
     return render_template("user_page.html", user=user, posts=posts, ratings=ratings)
@@ -178,9 +190,7 @@ def logout():
 
 @app.route("/rate_item/<int:item_id>", methods=["POST"])
 def rate_item(item_id):
-    if "user_id" not in session:
-        abort(403)
-
+    require_login()
     item = items.get_item(item_id)
 
     if not item:
@@ -207,12 +217,9 @@ def rate_item(item_id):
 
 @app.route("/edit_rating/<int:rating_id>", methods=["GET", "POST"])
 def edit_rating(rating_id):
+    require_login()
     rating = items.get_rating(rating_id)
-    if not rating:
-        abort(404)
-
-    if rating["user_id"] != session.get("user_id"):
-        abort(403)
+    verify_owner(rating)
 
     if request.method == "GET":
         return render_template("edit_rating.html", rating=rating)
@@ -228,11 +235,9 @@ def edit_rating(rating_id):
 
 @app.route("/delete_rating/<int:rating_id>", methods=["GET", "POST"])
 def delete_rating(rating_id):
+    require_login()
     rating = items.get_rating(rating_id)
-    if not rating:
-        abort(404)
-    if rating["user_id"] != session.get("user_id"):
-        abort(403)
+    verify_owner(rating)
 
     if request.method == "GET":
         return render_template("delete_rating.html", rating=rating)
