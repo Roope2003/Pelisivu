@@ -27,15 +27,18 @@
   <ul>
     {% for r in ratings %}
       <li>
+        <div class="review">
         <strong><a href="/user_page/{{ r.user_id }}">{{ r.username }}</a></strong>: {{ r.rating }}/5
         {% if r.comment %}
-          - <p style="white-space: pre-wrap;">{{ r.comment }}</p>
+          <p style="white-space: pre-wrap;">{{ r.comment }}</p>
 
         {% endif %}
         {% if session.user_id and session.user_id == r.user_id %}
+        <hr>
           <a href="/edit_rating/{{ r.id }}">Muokkaa arviota</a>
           <a href="/delete_rating/{{ r.id }}">Poista arvio</a>
         {% endif %}
+        </div>
       </li>
     {% endfor %}
   </ul>
