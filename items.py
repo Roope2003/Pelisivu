@@ -14,7 +14,7 @@ def create_post(title, content, price, user_id, genre):
     db.execute(sql, [title, content, price, user_id, genre])
 
 def get_all_posts():
-    sql = """ SELECT id, title, content, price, user_id FROM posts ORDER BY id DESC;
+    sql = """ SELECT id, title FROM posts ORDER BY id DESC;
     """
     rivit= db.query(sql)
     return [{"id": r["id"], "title": r["title"]} for r in rivit]
