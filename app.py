@@ -1,6 +1,8 @@
 import sqlite3
 import secrets
-from flask import Flask
+import math
+import time
+from flask import Flask ,g
 from flask import abort, redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import items
@@ -8,6 +10,16 @@ import config
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+@app.before_request
+def before_request():
+    g.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    elapsed_time = round(time.time() - g.start_time, 4)
+    print("elapsed time:", elapsed_time, "s")
+    return response
 
 @app.context_processor
 def inject_csrf_token():
@@ -35,9 +47,21 @@ def verify_owner(obj):
 
 
 @app.route("/")
-def index():
-    posts=items.get_all_posts()
-    return render_template("index.html", posts=posts)
+@app.route("/<int:page>")
+def index(page=1):
+    page_size=10
+    post_count = items.post_count()
+    page_count = math.ceil(post_count/page_size)
+    page_count = max(page_count,1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+
+
+    posts=items.get_all_posts(page, page_size)
+    return render_template("index.html",page=page,page_count=page_count, posts=posts)
 
 
 @app.route("/new_item")

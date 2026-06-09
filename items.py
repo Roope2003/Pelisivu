@@ -13,10 +13,15 @@ def create_post(title, content, price, user_id, genre):
     sql = "INSERT INTO posts (title, content, price, user_id, genre) VALUES (?, ?, ?, ?, ?)"
     db.execute(sql, [title, content, price, user_id, genre])
 
-def get_all_posts():
-    sql = """ SELECT id, title FROM posts ORDER BY id DESC;
+def get_all_posts(page, page_size):
+    sql = """ SELECT id, title FROM posts ORDER BY id DESC
+    LIMIT ? OFFSET ?;
     """
-    rivit= db.query(sql)
+
+    limit = page_size
+    offset = page_size * (page-1)
+
+    rivit= db.query(sql,[limit,offset])
     return [{"id": r["id"], "title": r["title"]} for r in rivit]
 
 def get_item(item_id):
@@ -107,3 +112,7 @@ def get_rating(rating_id):
 def delete_rating(rating_id):
     sql = "DELETE FROM ratings WHERE id=?"
     db.execute(sql, [rating_id])
+
+def post_count():
+    sql = "SELECT COUNT(*) FROM posts"
+    return db.query(sql)[0][0]
