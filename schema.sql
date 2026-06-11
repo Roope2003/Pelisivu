@@ -21,3 +21,7 @@ CREATE TABLE ratings (
     comment TEXT,
     UNIQUE(post_id, user_id)
 );
+
+CREATE INDEX idx_posts_user_id   ON posts(user_id);
+CREATE INDEX idx_ratings_user_id ON ratings(user_id);
+CREATE INDEX idx_ratings_post_id ON ratings(post_id);
