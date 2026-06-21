@@ -12,15 +12,18 @@
   <form action="/create" method="post" class=register-form>
     <p>
       <label for="name">Käyttäjätunnus:</label>
-      <input id="name" type="text" name="username" />
+      <input id="name" type="text" name="username" required/>
+      <small>Pituus 3-30 merkkiä</small>
+
     </p>
     <p>
       <label for="pass">Salasana:</label>
-      <input id="pass" type="password" name="password1" />
+      <input id="pass" type="password" name="password1" required />
+      <small>Vähintään 8 merkkiä</small>
     </p>
     <p>
       <label for="passpass">Toista salasana:</label>
-      <input id=passpass type="password" name="password2" />
+      <input id=passpass type="password" name="password2" required />
     </p>
     <input type="submit" value="Luo tunnus" />
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">

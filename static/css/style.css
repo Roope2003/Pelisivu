@@ -123,3 +123,10 @@ a:hover {
     padding: 10px;
     margin: 5px;
 }
+
+small {
+    color: #666;
+    display: block;
+    margin-top: 4px;
+    font-size: 0.9em;
+}

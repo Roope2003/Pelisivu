@@ -34,6 +34,7 @@ def csrf_protect():
         form_token = request.form.get("csrf_token")
         if not session_token or session_token != form_token:
             abort(403)
+
 def require_login():
     if "user_id" not in session:
         abort(403)
@@ -44,6 +45,29 @@ def verify_owner(obj):
     if obj["user_id"] !=session["user_id"]:
         abort(403)
 
+def validate_item(title, content, price, genres):
+    if not title:
+        abort(400)
+
+    if len(title) > 100:
+        abort(400)
+
+    if not content:
+        abort(400)
+
+    if len(content) > 5000:
+        abort(400)
+
+    if price < 0:
+        abort(400)
+
+    allowed_genres = {"Toiminta","Seikkailu","RPG","Strategia","Simulaatio","Muu"}
+
+    if not genres:
+        abort(400)
+
+    if not all(g in allowed_genres for g in genres):
+        abort(400)
 
 
 @app.route("/")
@@ -83,12 +107,20 @@ def show_item(item_id):
 def create_item():
     require_login()
 
-    title = request.form["title"]
-    content = request.form["content"]
-    price = request.form.get("price", 0)
+    title = request.form["title"].strip()
+    content = request.form["content"].strip()
+
+    try:
+        price = float(request.form.get("price", 0))
+    except ValueError:
+        abort(400)
+
     genres = request.form.getlist("genre")
-    genre = ",".join([g for g in genres])
+
+    validate_item(title,content,price,genres)
+
     user_id = session["user_id"]
+    genre = ",".join([g for g in genres])
 
     items.create_post(title, content, price, user_id, genre)
     return redirect("/")
@@ -101,22 +133,39 @@ def edit_item(item_id):
     verify_owner(item)
     return render_template("edit_item.html", item=item)
 
+
+
+
+
+
 @app.route("/update_item/<int:item_id>", methods=["POST"])
 def update_item(item_id):
     require_login()
     item = items.get_item(item_id)
     verify_owner(item)
 
-    title=request.form["title"]
-    content=request.form["content"]
-    price=request.form.get("price", 0)
+    title = request.form["title"].strip()
+    content = request.form["content"].strip()
+
+    try:
+        price = float(request.form.get("price", 0))
+    except ValueError:
+        abort(400)
+
     genres = request.form.getlist("genre")
+
+    validate_item(title,content,price,genres)
+
     genre = ",".join([g for g in genres])
     user_id=session["user_id"]
     item_data = {"title": title, "content": content, "price": price, "genre": genre,
                 "user_id": user_id,}
     items.update_item(item_id,item_data)
     return redirect("/item/"+str(item_id))
+
+
+
+
 
 @app.route("/delete_item/<int:item_id>", methods=["GET", "POST"])
 def delete_item(item_id):
@@ -144,7 +193,6 @@ def find_item():
         title = " "
         results = []
 
-    title = request.args.get("title")
     return render_template("find_item.html", title=title, results=results)
 
 
@@ -156,9 +204,22 @@ def register():
 
 @app.route("/create", methods=["POST"])
 def create():
-    username = request.form["username"]
+    username = request.form["username"].strip()
+
+    if not username:
+        return render_template("register_failure.html", message="Käyttäjänimi puuttuu")
+
+    if len(username) <3:
+        return render_template("register_failure.html",
+        message="Käyttäjänimen tulee olla vähintään 3 merkkiä pitkä")
+
     password1 = request.form["password1"]
     password2 = request.form["password2"]
+
+    if len(password1) < 8:
+        return render_template("register_failure.html",
+        message="Salasanan tulee olla vähintään 8 merkkiä pitkä")
+
     if password1 != password2:
         return render_template("register_failure.html", message="Salasanat eivät täsmää")
     password_hash = generate_password_hash(password1)
@@ -225,6 +286,10 @@ def rate_item(item_id):
 
     rating = request.form.get("rating", type=int)
     comment = request.form.get("comment", "")
+
+    if rating is None:
+        abort(400)
+
     if not 1 <= rating <= 5:
         abort(400)
 
@@ -250,6 +315,8 @@ def edit_rating(rating_id):
 
     rating_val = request.form.get("rating", type=int)
     comment = request.form.get("comment", "")
+    if rating is None:
+        abort(400)
 
     if not 1 <= rating_val <= 5:
         abort(400)

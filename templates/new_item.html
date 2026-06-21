@@ -11,19 +11,19 @@
   <form action="/create_item" method="post">
     <p>
       <label for="title">Pelin nimi</label>
-      <input type="text" name="title" id="title" />
+      <input type="text" name="title" id="title" maxlength="100" required />
     </p>
     <p>
       <label for="desc">Kuvaus</label>
-      <textarea name="content" rows="5" cols="40" id="desc"></textarea>
+      <textarea name="content" rows="5" cols="40" id="desc" maxlength="5000" required></textarea>
     </p>
     <p>
       <label for="hinta">Hinta</label>
-      <input type="number" name="price" step="0.01" id="hinta" /> €
+      <input type="number" name="price" step="0.01" id="hinta" required /> €
     </p>
     <p>
       <label for="genre">Genre</label>
-      <select name="genre" id="genre" multiple size="6">
+      <select name="genre" id="genre" multiple size="6" required>
         <option value="Toiminta">Toiminta</option>
         <option value="Seikkailu">Seikkailu</option>
         <option value="RPG">RPG</option>

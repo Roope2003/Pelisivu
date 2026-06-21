@@ -11,29 +11,28 @@
   <form action="/update_item/{{ item.id }}" method="post">
     <p>
       <label for="title">Otsikko</label>
-      <input type="text" name="title" value="{{ item.title }}" id="title">
+      <input type="text" name="title" value="{{ item.title }}" id="title" maxlength="100" required>
     </p>
 
     <p>
       <label for="desc">Kuvaus</label>
-      <textarea id="desc" name="content" rows="5" cols="40">{{ item.content }} </textarea>
-    </p>
+      <textarea id="desc" name="content" rows="5" cols="40" maxlength="5000" required>{{ item.content }}</textarea>    </p>
 
     <p>
       <label for="hinta">Hinta</label>
-      <input type="number" name="price" step="0.01" value="{{ item.price }}" id="hinta">
+      <input type="number" name="price" step="0.01" value="{{ item.price }}" id="hinta" required>
     </p>
 
     <p>
       Genre: <br>
       <label for="genre">Genre</label>
-      <select name="genre" id="genre" multiple size="6">
-        <option value="Toiminta" {% if item.genre == "Toiminta" %}selected{% endif %}>Toiminta</option>
-        <option value="Seikkailu" {% if item.genre == "Seikkailu" %}selected{% endif %}>Seikkailu</option>
-        <option value="RPG" {% if item.genre == "RPG" %}selected{% endif %}>RPG</option>
-        <option value="Strategia" {% if item.genre == "Strategia" %}selected{% endif %}>Strategia</option>
-        <option value="Simulaatio" {% if item.genre == "Simulaatio" %}selected{% endif %}>Simulaatio</option>
-        <option value="Muu" {% if item.genre == "Muu" %}selected{% endif %}>Muu</option>
+      <select name="genre" id="genre" multiple size="6" required>
+        <option value="Toiminta" {% if "Toiminta" in item.genre.split(",") %}selected{% endif %}>Toiminta</option>
+        <option value="Seikkailu" {% if "Seikkailu" in item.genre.split(",") %}selected{% endif %}>Seikkailu</option>
+        <option value="RPG" {% if "RPG" in item.genre.split(",") %}selected{% endif %}>RPG</option>
+        <option value="Strategia" {% if "Strategia" in item.genre.split(",") %}selected{% endif %}>Strategia</option>
+        <option value="Simulaatio" {% if "Simulaatio" in item.genre.split(",") %}selected{% endif %}>Simulaatio</option>
+        <option value="Muu" {% if "Muu" in item.genre.split(",") %}selected{% endif %}>Muu</option>
       </select>
     </p>
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
